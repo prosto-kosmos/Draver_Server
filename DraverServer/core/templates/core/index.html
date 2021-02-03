@@ -4,6 +4,60 @@
 {% block title %} Welcome! {% endblock %}
 
 
+{% block styles %}
+  <style>
+   #main_table{
+        text-align: center;
+        font-size: 12px;
+   }
+   #table_div{
+        margin-top: 15px;
+        margin-bottom: 30px;
+        margin-left: 30px;
+        margin-right: 30px;
+   }
+   </style>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		$(document).ready(function() {
+			$('#main_table').DataTable({
+                "scrollX": true,
+                "order": [[ 0, "desc" ]]
+            });
+		} );
+	</script>
+{% endblock %}
+
 {% block content %}
-<p>Hello world</p>
+    <div id="table_div">
+        <table id="main_table"  class=" ui celled order-column table compact hover" style="width:100%">
+          <thead class="thead-dark" style="font-size: 11px; text-align: center">
+           <tr>
+              <th scope="col">ID водителя</th>
+              <th scope="col">Фамилия</th>
+              <th scope="col">Имя</th>
+              <th scope="col">Отчество</th>
+              <th scope="col">Дата и время</th>
+              <th scope="col">Скорость</th>
+              <th scope="col">Обороты</th>
+            </tr>
+          </thead>
+          <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td scope="row">{{log.driver_id.driver_id}}</td>
+                        <td>{{log.driver_id.surname}}</td>
+                        <td>{{log.driver_id.firstname}}</td>
+                        <td>{{log.driver_id.patronymic}}</td>
+                        <td>{{log.created_at}}</td>
+                        <td>{{log.speed}}</td>
+                        <td>{{log.rpm}}</td>
+                    </tr>
+                {% endfor %}
+          </tbody>
+        </table>
+    </div>
 {% endblock %}

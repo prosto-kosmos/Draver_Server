@@ -6,7 +6,8 @@ import datetime
 
 class Index_view(View):
     def get(self, request):
-        return render(request, 'core/index.html', context={})
+        logs = Logs.objects.all()
+        return render(request, 'core/index.html', context={'logs' : logs})
 
 class Request_view(View):
     def get(self, request):
@@ -30,11 +31,7 @@ class Request_view(View):
         if mode == 'connect':
             try:
                 driver = Drivers.objects.get(driver_id=request.GET['ID'])
-                return HttpResponse(str({
-                    'surname': driver.surname,
-                    'firstname': driver.firstname,
-                    'patronymic': driver.patronymic,
-                }))
+                return HttpResponse(str(driver.surname + ' ' + driver.firstname + ' ' + driver.patronymic))
             except:
                 return HttpResponse('No_driver')
         
