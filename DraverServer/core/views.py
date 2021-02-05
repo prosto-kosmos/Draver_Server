@@ -9,29 +9,25 @@ class Index_view(View):
         logs = Logs.objects.all()
         return render(request, 'core/index.html', context={'logs' : logs})
 
-class Request_view(View):
+class Api_insert_view(View):
     def get(self, request):
-        mode = request.GET['MODE']
+        try:
+            driver = Drivers.objects.get(driver_id=request.GET['ID'])
+            # Logs.objects.create(
+            #     driver_id = driver,
+            #     created_at = datetime.datetime.now(),
+            #     speed = request.GET['SPEED'],
+            #     rpm = request.GET['RPM']
+            # )
+            return HttpResponse('Ok')
+        except Exception as e:
+            return HttpResponse('Error')
 
-        # запрос с параметрами MODE,ID и данные - вернет Ok либо ошибку
-        if mode == 'add_log':
-            try:
-                driver = Drivers.objects.get(driver_id=request.GET['ID'])
-                Logs.objects.create(
-                    driver_id = driver,
-                    created_at = datetime.datetime.now(),
-                    speed = request.GET['SPEED'],
-                    rpm = request.GET['RPM']
-                )
-                return HttpResponse('Ok')
-            except Exception as e:
-                return HttpResponse(e)
-
-        # запрос с параметрами MODE и ID - вернет ФИО либо, что его нет
-        if mode == 'connect':
-            try:
-                driver = Drivers.objects.get(driver_id=request.GET['ID'])
-                return HttpResponse(str(driver.surname + ' ' + driver.firstname + ' ' + driver.patronymic))
-            except:
-                return HttpResponse('No_driver')
+class Api_connect_view(View):
+    def get(self, request):
+        try:
+            driver = Drivers.objects.get(driver_id=request.GET['ID'])
+            return HttpResponse(str(driver.surname + ' ' + driver.firstname + ' ' + driver.patronymic))
+        except:
+            return HttpResponse('Error')
         
