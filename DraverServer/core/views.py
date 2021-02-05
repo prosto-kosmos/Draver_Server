@@ -13,6 +13,7 @@ class Api_insert_view(View):
     def get(self, request):
         try:
             driver = Drivers.objects.get(driver_id=request.GET['ID'])
+            print(request.GET['DATA'])
             # Logs.objects.create(
             #     driver_id = driver,
             #     created_at = datetime.datetime.now(),
