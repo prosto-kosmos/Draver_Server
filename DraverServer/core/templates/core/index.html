@@ -41,8 +41,11 @@
               <th scope="col">Имя</th>
               <th scope="col">Отчество</th>
               <th scope="col">Дата и время</th>
-              <th scope="col">Скорость</th>
-              <th scope="col">Обороты</th>
+              <th scope="col">Скорость автомобиля(km/h)</th>
+              <th scope="col">Обороты двигателя в минуту(RPM)</th>
+              <th scope="col">Температура охлаждающей жидкости(°C)</th>
+              <th scope="col">Массовый расход воздуха(g/s)</th>
+              <th scope="col">Положение дроссельной заслонки(%)</th>
             </tr>
           </thead>
           <tbody>
@@ -55,6 +58,9 @@
                         <td>{{log.created_at}}</td>
                         <td>{{log.speed}}</td>
                         <td>{{log.rpm}}</td>
+                        <td>{{log.coolantTemp}}</td>
+                        <td>{{log.massAirFlow}}</td>
+                        <td>{{log.throttlePosition}}</td>
                     </tr>
                 {% endfor %}
           </tbody>

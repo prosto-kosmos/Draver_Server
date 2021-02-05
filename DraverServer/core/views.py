@@ -3,6 +3,7 @@ from django.views import View
 from django.http import HttpResponse
 from .models import Drivers, Logs
 import datetime
+import json
 
 class Index_view(View):
     def get(self, request):
@@ -13,13 +14,17 @@ class Api_insert_view(View):
     def get(self, request):
         try:
             driver = Drivers.objects.get(driver_id=request.GET['ID'])
-            print(request.GET['DATA'])
-            # Logs.objects.create(
-            #     driver_id = driver,
-            #     created_at = datetime.datetime.now(),
-            #     speed = request.GET['SPEED'],
-            #     rpm = request.GET['RPM']
-            # )
+            data = json.loads(request.GET['DATA'])
+            for item in data:
+                Logs.objects.create(
+                    driver_id = driver,
+                    created_at = item['DateTime'],
+                    speed = item['Speed'][:-4],
+                    rpm = item['Rpm'][:-3],
+                    coolantTemp = item['CoolantTemp'][:-1],
+                    massAirFlow = item['MassAirFlow'][:-3],
+                    throttlePosition = item['ThrottlePosition']
+                )
             return HttpResponse('Ok')
         except Exception as e:
             return HttpResponse('Error')
